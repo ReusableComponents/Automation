@@ -8,6 +8,7 @@ import subprocess
 PIP = r"pip3"
 APTITUDE = r"apt-get"
 GIT = r"git"
+NPM = r"npm"
 
 class Dependency(object):
     def __init__(self, manager, name):
@@ -37,6 +38,14 @@ class PipCollection(PackageCollection):
     def install(self):
         for package in self.packages:
             return_code = subprocess.call(["sudo", self.manager, "install", package])
+
+class NpmCollection(PackageCollection):
+    def __init__(self, packages):
+        PackageCollection.__init__(self, NPM, packages)
+
+    def install(self):
+        for package in self.packages:
+            return_code = subprocess.call(["sudo", self.manager, "install", package])
         
 class GitCollection(PackageCollection):
     def __init__(self, repositories):
@@ -58,19 +67,13 @@ def main():
     
     # TODO: Implement usage
     
-    apt_packages = ( r"python3-pip",
-                 r"python-dev" ,
-                 r"mongodb",
-                 r"gir1.2-webkit-3.0")
+    apt_packages = (  )
     
-    pip_packages = ( r"flask",
-                 r"enum34",
-                 r"requests",
-                 r"grequests",
-                 r"pymongo")
+    pip_packages = ( )
     
-    git_repos = ( r"https://github.com/HaydenMcParlane/DesignPatterns",
-                  r"https://github.com/ReusableComponents/Authentication")
+    git_repos = ( )
+
+    npm_packages = ( )
     
     collections = ( AptitudeCollection(apt_packages),
                     PipCollection(pip_packages),
